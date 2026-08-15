@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="lumio" x1="10%" y1="0%" x2="85%" y2="100%">
+      <stop offset="0%" stop-color="#fff0b0" />
+      <stop offset="55%" stop-color="#ffb01a" />
+      <stop offset="100%" stop-color="#ff8a00" />
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="19" fill="url(#lumio)" />
+  <rect x="10" y="10" width="44" height="44" rx="12" fill="none" stroke="#08080c" stroke-opacity=".28" stroke-width="3" />
+  <path d="M26 20 L46 32 L26 44 Z" fill="#08080c" />
+</svg>

@@ -1,0 +1,372 @@
+@import 'tailwindcss';
+
+@theme {
+  /* Superfícies: tema escuro, quase preto */
+  --color-ink: #06060a;
+  --color-night: #08080c;
+  --color-surface: #111119;
+  --color-surface-2: #16161c;
+  --color-surface-3: #14141c;
+
+  /* Marca: amarelo-âmbar */
+  --color-amber: #ffc21a;
+  --color-amber-soft: #ffd670;
+  --color-amber-hi: #ffe14d;
+  --color-amber-mid: #ffb01a;
+  --color-amber-deep: #ff8a00;
+
+  /* Negativo / ao vivo */
+  --color-danger: #ff5a5a;
+  --color-live: #ff3b3b;
+
+  --animate-glow: luGlow 7s ease-in-out infinite;
+  --animate-rise: luRise 0.7s ease both;
+  --animate-marquee: luMarquee 60s linear infinite;
+  --animate-pulse-live: luPulse 1.4s infinite;
+  --animate-fade-in: luFade 0.5s ease both;
+  --animate-ken: luKen 22s ease-in-out infinite alternate;
+  --animate-shimmer: luShimmer 1.3s infinite linear;
+  --animate-reveal: luReveal 0.5s cubic-bezier(0.22, 0.68, 0.24, 1) both;
+  --animate-pop: luPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  --animate-slide-right: luSlideRight 0.5s ease both;
+  --animate-bar: luBar 0.9s cubic-bezier(0.22, 0.68, 0.24, 1) both;
+
+
+}
+
+/* As keyframes moram fora do @theme de proposito: dentro dele o Tailwind so
+   emite as que algum utilitario --animate-* usa, e varias sao chamadas por
+   style inline (luFloat, luProgress) ou por @utility (luSheen, luReveal). */
+@keyframes luGlow {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.12);
+    opacity: 0.82;
+  }
+}
+@keyframes luRise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes luMarquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes luPulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+@keyframes luFade {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.99);
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+@keyframes luKen {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.1);
+  }
+}
+@keyframes luShimmer {
+  0% {
+    background-position: -400px 0;
+  }
+  100% {
+    background-position: 400px 0;
+  }
+}
+
+/* Partícula âmbar subindo devagar, com leve deriva lateral. */
+@keyframes luFloat {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.5);
+    opacity: 0;
+  }
+  12% {
+    opacity: var(--lu-peak, 0.5);
+  }
+  85% {
+    opacity: var(--lu-peak, 0.5);
+  }
+  100% {
+    transform: translate3d(var(--lu-drift, 0px), calc(-1 * var(--lu-rise, 420px)), 0) scale(1);
+    opacity: 0;
+  }
+}
+
+/* Brilho diagonal que cruza o card no hover.
+   A opacidade faz parte da animação: se ficasse no `:hover`, ao terminar o
+   brilho voltava ao centro e ficava parado ali como uma faixa branca. */
+@keyframes luSheen {
+  0% {
+    transform: translateX(-120%) skewX(-18deg);
+    opacity: 0;
+  }
+  18% {
+    opacity: 1;
+  }
+  82% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(220%) skewX(-18deg);
+    opacity: 0;
+  }
+}
+
+@keyframes luProgress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* Entrada com leve "salto", para itens que aparecem por ação do usuário. */
+@keyframes luPop {
+  from {
+    opacity: 0;
+    transform: scale(0.82);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Entrada lateral, usada em listas verticais como a programação e episódios. */
+@keyframes luSlideRight {
+  from {
+    opacity: 0;
+    transform: translateX(-14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Barra de progresso preenchendo a partir da esquerda. */
+@keyframes luBar {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* Pulso suave de destaque, para chamar atenção sem piscar. */
+@keyframes luBreathe {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 194, 26, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(255, 194, 26, 0);
+  }
+}
+
+@keyframes luReveal {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* next/font expõe as famílias como variáveis CSS. */
+@theme inline {
+  --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* impede que o iOS aumente a fonte ao girar o aparelho */
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-night);
+    color: #fff;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    /* nenhuma tela deve provocar rolagem horizontal no celular */
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: var(--color-amber);
+    color: var(--color-night);
+  }
+
+  /* Foco visível e consistente em toda a aplicação */
+  :focus-visible {
+    outline: 2px solid var(--color-amber);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* Fileira horizontal sem barra de rolagem visível. */
+@utility row-scroll {
+  overflow-x: auto;
+  /* Explícito: com overflow-x:auto o navegador promoveria overflow-y para auto,
+     e qualquer filho que vaze um pixel para baixo deixaria a fileira arrastável
+     na vertical. */
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  overscroll-behavior-x: contain;
+  &::-webkit-scrollbar {
+    height: 0;
+    display: none;
+  }
+
+  /* O snap só entra no toque. No desktop, a roda do mouse rolando a página
+     fazia o navegador re-encaixar a fileira e os cards saltavam de lado. */
+  @media (pointer: coarse) {
+    scroll-snap-type: x proximity;
+  }
+}
+
+@utility snap-item {
+  scroll-snap-align: start;
+}
+
+/* Bloco em degradê exibido no lugar de um pôster ausente ou quebrado. */
+@utility poster-fallback {
+  background-image: linear-gradient(155deg, #20202c, #111117);
+}
+
+@utility skeleton {
+  background: linear-gradient(90deg, #141420 25%, #1e1e2c 37%, #141420 63%);
+  background-size: 800px 100%;
+  animation: var(--animate-shimmer);
+}
+
+/* O palco do player perde cantos e borda em tela cheia. */
+@utility player-stage {
+  &:fullscreen {
+    border-radius: 0;
+    border: none;
+    max-width: none;
+  }
+}
+
+/* Brilho que cruza o card ao passar o mouse. Só transform/opacity: não repinta. */
+@utility sheen {
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    /* Acima do pôster, abaixo dos selos e do link: antes o brilho passava
+       por cima da nota e do "NOVO". */
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 234, 170, 0.18) 45%,
+      rgba(255, 255, 255, 0.28) 50%,
+      rgba(255, 234, 170, 0.18) 55%,
+      transparent
+    );
+    opacity: 0;
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    &:hover::after,
+    &:focus-within::after {
+      animation: luSheen 0.85s ease-out;
+    }
+  }
+}
+
+/* Reveal ao entrar na viewport, aplicado por <Reveal/>. */
+@utility reveal-hidden {
+  opacity: 0;
+}
+
+@utility reveal-in {
+  animation: luReveal 0.55s cubic-bezier(0.22, 0.68, 0.24, 1) both;
+}
+
+/* Barra que se preenche na entrada. O elemento precisa de origem à esquerda. */
+@utility bar-fill {
+  transform-origin: left;
+  animation: luBar 0.9s cubic-bezier(0.22, 0.68, 0.24, 1) both;
+}
+
+/* Halo pulsante em torno de um elemento em foco. */
+@utility breathe {
+  animation: luBreathe 2.4s ease-in-out infinite;
+}
+
+/* Sublinhado que cresce do centro no hover. */
+@utility underline-grow {
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -4px;
+    height: 2px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--color-amber-hi), var(--color-amber-mid));
+    transform: scaleX(0);
+    transition: transform 0.28s cubic-bezier(0.22, 0.68, 0.24, 1);
+  }
+
+  &:hover::after,
+  &:focus-visible::after {
+    transform: scaleX(1);
+  }
+}
